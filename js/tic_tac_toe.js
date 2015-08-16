@@ -19,33 +19,41 @@ var grid = [['','',''],['','',''],['','','']];
 
 
 //for element x, inserts x or o and calls updateGrid() to update the grid representation
-function logMove(x) {
-    console.log('clicked');
-    x.innerHTML="<p>"+turn+"</p>";
-    updateGrid(x);
-  }
-
-function checkWin() {
-//lines(rows,columns and two diagonals) to look at to find winner
-var column1 = [grid[0][0],grid[1][0],grid[2][0]];
-var column2 = [grid[0][1],grid[1][1],grid[2][1]];
-var column3 = [grid[0][2],grid[1][2],grid[2][2]];
+var col1 = [grid[0][0],grid[1][0],grid[2][0]];
+var col2 = [grid[0][1],grid[1][1],grid[2][1]];
+var col3 = [grid[0][2],grid[1][2],grid[2][2]];
 var row1 = grid[0];
 var row2 = grid[1];
 var row3 = grid[2];
-var diagonal1 = [grid[0][0],grid[1][1],grid[2][2]];
-var diagonal2 = [grid[0][2],grid[1][1],grid[2][0]];
+var diag1 = [grid[0][0],grid[1][1],grid[2][2]];
+var diag2 = [grid[0][2],grid[1][1],grid[2][0]];
+
+//TRIED TO SHORTEN CODE BUT DIDIN"T WORK
+// var winLines = [col1,col2,col3,row1,row2,row3,diag1,diag2];
+
+// function lineOfThree(element,index,array) {
+//   element.every(function(n) {
+//     return(n===element[0] && element[0]!=='');
+//   });
+// };
+
+function checkWin() {
+//lines(rows,cols and two diags) to look at to find winner
+
 //true/false variable for whether game is won or not
-  gameWon = (column1.every(function(n) {
-    return(n===column1[0] && column1[0]!=='');
+//NB- could use .every to check all these conditions if we had an array of the above variables.
+
+  gameWon =
+  (col1.every(function(n) {
+    return(n===col1[0] && col1[0]!=='');
     })
   ||
-  column2.every(function(n) {
-    return(n===column2[0] && column2[0]!=='');
+  col2.every(function(n) {
+    return(n===col2[0] && col2[0]!=='');
     })
   ||
-  column3.every(function(n) {
-    return(n===column3[0] && column3[0]!=='');
+  col3.every(function(n) {
+    return(n===col3[0] && col3[0]!=='');
     })
   ||
   row1.every(function(n) {
@@ -60,24 +68,20 @@ var diagonal2 = [grid[0][2],grid[1][1],grid[2][0]];
   return(n===row3[0] && row3[0]!=='');
     })
   ||
-  diagonal1.every(function(n) {
-  return(n===diagonal1[0] && diagonal1[0]!=='');
+  diag1.every(function(n) {
+  return(n===diag1[0] && diag1[0]!=='');
     })
   ||
-  diagonal2.every(function(n) {
-  return(n===diagonal2[0] && diagonal2[0]!=='');
+  diag2.every(function(n) {
+  return(n===diag2[0] && diag2[0]!=='');
     }))
   ?
   true : false;
   return gameWon;
 };
 
-
-//function that returns winner not just win
-
-
-//gets id of clicked cell and update array accordingly.
-//NB - shorter way to do this would be to check for row first, then column and assign grid accordingly.
+//get id of clicked cell and update array accordingly.
+//NB - shorter way to do this would be to check for row first (have a class for both), then col and assign grid accordingly.
 function updateGrid(cell) {
 
   switch(cell.id) {
@@ -117,16 +121,78 @@ var cells = document.getElementsByClassName('cell');
 
 // for all cells add event listeners to insert 'x' or 'o' when clicked, call updateGrid() to record the move,  then call changeTurn() so that it alternates.
 //NB: tried to separate out a function that inserts 'x' or 'o' (eg. takeTurn(){..}) but 'this' needed to be called within here
-[].forEach.call(cells, function(v,i,a) {
-  v.addEventListener('click', function listener() {
+// [].forEach.call(cells, function(v,i,a) {
+//   v.addEventListener
+
+function logMove(x) {
+    console.log('move logged');
+    x.innerHTML="<p>"+turn+"</p>";
+    updateGrid(x);
+  }
+
+
+// var a1Box = document.getElementById('a1');
+// a1Box.addEventListener('click', listener);
+
+// var a2Box = document.getElementById('a2');
+// a2Box.addEventListener('click', listener);
+
+// var a3Box = document.getElementById('a3');
+// a3Box.addEventListener('click', listener);
+
+// var b1Box = document.getElementById('b1');
+// b1Box.addEventListener('click', listener);
+
+// var b2Box = document.getElementById('b2');
+// b2Box.addEventListener('click', listener);
+
+// var b3Box = document.getElementById('b3');
+// b3Box.addEventListener('click', listener);
+
+// var c1Box = document.getElementById('c1');
+// c1Box.addEventListener('click', listener);
+
+// var c2Box = document.getElementById('c2');
+// c2Box.addEventListener('click', listener);
+
+// var c3Box = document.getElementById('c3');
+// c3Box.addEventListener('click', listener);
+
+var idArray = ['a1','a2','a3','b1','b2','b3','c1','c2','c3'];
+idArray.forEach(addListener);
+
+
+function listener() {
+  console.log('clicked');
     logMove(this);
     checkWin();
     console.log(gameWon);
     if (gameWon===true) {
       winner=turn;
       console.log(winner+' wins!');
+      idArray.forEach(removeListener);
+      // a1Box.removeEventListener('click', listener);
+      // a2Box.removeEventListener('click', listener);
+      // a3Box.removeEventListener('click', listener);
+      // b1Box.removeEventListener('click', listener);
+      // b2Box.removeEventListener('click', listener);
+      // b3Box.removeEventListener('click', listener);
+      // c1Box.removeEventListener('click', listener);
+      // c2Box.removeEventListener('click', listener);
+      // c3Box.removeEventListener('click', listener);
     };
     changeTurn(); 
-  });
-});
+  };
+
+function addListener(a,b,c) {
+  document.getElementById(a).addEventListener('click', listener);
+};
+
+function removeListener(a,b,c) {
+  document.getElementById(a).removeEventListener('click', listener);
+};
+
+
+
+
 
