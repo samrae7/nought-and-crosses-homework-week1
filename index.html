@@ -1,29 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="utf-8"/>
-<link rel="stylesheet" type="text/css" href="css/styles.css">
-<link href='http://fonts.googleapis.com/css?family=Rock+Salt' rel='stylesheet' type='text/css'>
-  <title>Noughts and Crosses</title>
-</head>
-<body>
-<header>
-  <h1>Noughts and Crosses</h1>
-</header>
-<div class="container cf">
-  <div class='cell' id='a1' ></div>
-  <div class='cell' id ='a2'></div>
-  <div class='cell' id='a3'></div>
+  <head>
+  <meta charset="utf-8"/>
+  <link rel="stylesheet" type="text/css" href="css/styles.css">
+  <link href='http://fonts.googleapis.com/css?family=Rock+Salt' rel='stylesheet' type='text/css'>
+<!--   // <script type="text/javascript" src="js/tic_tac_toe.js"></script> -->
+  <script type="text/javascript">
+  function LoadMyJs(x) {
+  var docHeadObj = document.getElementsByTagName("head")[0];
+  var dynamicScript = document.createElement("script");
+  dynamicScript.type = "text/javascript";
+  dynamicScript.src = x
+  docHeadObj.appendChild(dynamicScript);
+  }
+  </script>
+    <title>Noughts and Crosses</title>
+  </head>
+ <body onLoad="LoadMyJs('js/tic_tac_toe.js')")>
+  <header>
+    <h1>Noughts & Crosses</h1>
+  </header>
+  <div class='container cf'>
+    <div class='score-board'>
+      <p>Scores</p>
+      <div class='score-header'>
+        <h1>X</h1>
+      </div>
+      <div class ='score-header'>
+        <h1>O</h1>
+      </div>
+      <div class='newRow' id='scoreX'></div>
+      <div id='scoreO'></div>
+    </div>
+    <div class="grid-container cf">
+    <p id='message'>Click to play.</p>
+      <div class='cell' id='a1' ></div>
+      <div class='cell' id ='a2'></div>
+      <div class='cell' id='a3'></div>
 
-  <div class="cell newRow" id='b1'></div>
-  <div class='cell' id='b2'></div>
-  <div class='cell' id='b3'></div>
+      <div class="cell newRow" id='b1'></div>
+      <div class='cell' id='b2'></div>
+      <div class='cell' id='b3'></div>
 
-  <div class="cell newRow" id='c1'></div>
-  <div class='cell' id='c2'></div>
-  <div class='cell' id='c3'></div>
-</div>
-
-</body>
-<script type="text/javascript" src="js/tic_tac_toe.js"></script>
+      <div class="cell newRow" id='c1'></div>
+      <div class='cell' id='c2'></div>
+      <div class='cell' id='c3'></div>
+      <a id='newGameButton' href="#">Next game</a>
+      |
+      <a id='restartButton' onClick="LoadMyJs('js/tic_tac_toe.js')" href="#">Clear scores</a>
+    </div>
+  </div>
+  </body>
 </html>

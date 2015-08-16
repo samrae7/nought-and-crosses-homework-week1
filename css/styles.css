@@ -30,8 +30,9 @@ body {
   font-family: 'Rock Salt', cursive;
 }
 
-header h1 {
+h1 {
   text-align:center;
+  margin:0;
 }
 
 .cell p {
@@ -44,11 +45,22 @@ header h1 {
 div.container {
   float:none;
   margin:0 auto;
-  width:306px;
-  height:auto;
 }
 
-.container div {
+/*.score-board p{
+  text-align:center;
+}*/
+
+
+div.grid-container {
+  width:306px;
+  height:auto;
+  text-align:center;
+  float:left;
+  margin-left: 135px;
+}
+
+.grid-container div {
   width:100px;
   height:100px;
   float:left;
@@ -63,4 +75,27 @@ div.newRow {
 div.win {
   margin:0 auto;
   width:300px;
+}
+
+div.score-board   {
+  float:left;
+  margin-left: 200px;
+  vertical-align: top;
+}
+
+.score-board div{
+  border:1px solid black;
+  width:70px;
+  height:85px;
+  float:left;
+}
+
+div.score-header {
+  float:left;
+}
+
+.score-board p , p#message {
+  text-align: center;
+  font-size: 1.5em;
+  margin: 10px 0;
 }

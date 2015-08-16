@@ -1,51 +1,51 @@
-console.log('JS file is linked');
+//GLOBAL VARIABLES
+  var idArray = ['a1','a2','a3','b1','b2','b3','c1','c2','c3'];
 
-//declare variable turn that changes each turn from x to o and back again
-var turn = "X";
+  //changes each turn from x to o and back again
+  var turn = "X";
 
-//gameWon = true if winning line is on board
-var gameWon;
+  //gameWon = true if winning line is on board
+  var gameWon;
 
-var winner;
+  var winner;
 
-function changeTurn() {
-  turn = turn === "X" ? "O" : "X";
+  //scores for x and o
+  var xScore=0;
+  var oScore=0;
+
+  //array of arrays that represents grid at any particular time. Each array in the array is a row. The variable is set in resetGame();
+  var grid;
+
+//update the scores based on the winnert
+function updateScore() {
+   if (winner==='X') {
+    xScore++;
+    document.getElementById('scoreX').innerHTML='<p>'+xScore+'</p>';
+   }
+   else {
+    oScore++;
+    document.getElementById('scoreO').innerHTML='<p>'+oScore+'</p>';
+   }
 }
 
-//array of arrays that represents grid at any particular time throughout the game. Each array in the array is a row, starting from top to bottom
-var grid = [['','',''],['','',''],['','','']];
+//alternates the tuen
+function changeTurn() {
+  turn = turn === "X" ? "O" : "X";
+  turnPrompt();
+}
 
 //function to check for all winning combinations, change state of gameWon when one is matched and return winner
-
-
-//for element x, inserts x or o and calls updateGrid() to update the grid representation
-
-//TRIED TO SHORTEN CODE BUT DIDIN"T WORK
-// var winLines = [col1,col2,col3,row1,row2,row3,diag1,diag2];
-
-// function lineOfThree(element,index,array) {
-//   element.every(function(n) {
-//     return(n===element[0] && element[0]!=='');
-//   });
-// };
-
 function checkWin() {
 //lines(rows,cols and two diags) to look at to find winner
+  var col1 = [grid[0][0],grid[1][0],grid[2][0]];
+  var col2 = [grid[0][1],grid[1][1],grid[2][1]];
+  var col3 = [grid[0][2],grid[1][2],grid[2][2]];
+  var row1 = grid[0];
+  var row2 = grid[1];
+  var row3 = grid[2];
+  var diag1 = [grid[0][0],grid[1][1],grid[2][2]];
+  var diag2 = [grid[0][2],grid[1][1],grid[2][0]];
 
-var col1 = [grid[0][0],grid[1][0],grid[2][0]];
-var col2 = [grid[0][1],grid[1][1],grid[2][1]];
-var col3 = [grid[0][2],grid[1][2],grid[2][2]];
-var row1 = grid[0];
-var row2 = grid[1];
-var row3 = grid[2];
-var diag1 = [grid[0][0],grid[1][1],grid[2][2]];
-var diag2 = [grid[0][2],grid[1][1],grid[2][0]];
-
-
-//true/false variable for whether game is won or not
-//NB- could use .every to check all these conditions if we had an array of the above variables.
-
-// NB - tried to replace the below with a nested .every method but it didn'work
   gameWon =
   (col1.every(function(n) {
     return(n===col1[0] && col1[0]!=='');
@@ -84,7 +84,6 @@ var diag2 = [grid[0][2],grid[1][1],grid[2][0]];
 };
 
 //get id of clicked cell and update array accordingly.
-//NB - shorter way to do this would be to check for row first (have a class for both), then col and assign grid accordingly.
 function updateGrid(cell) {
 
   switch(cell.id) {
@@ -119,14 +118,7 @@ function updateGrid(cell) {
   console.log(grid);
 };
 
-//grab all cells 
-// var cells = document.getElementsByClassName('cell');
-
-// for all cells add event listeners to insert 'x' or 'o' when clicked, call updateGrid() to record the move,  then call changeTurn() so that it alternates.
-//NB: tried to separate out a function that inserts 'x' or 'o' (eg. takeTurn(){..}) but 'this' needed to be called within here
-// [].forEach.call(cells, function(v,i,a) {
-//   v.addEventListener
-
+//for element x, inserts x or o and calls updateGrid() to update the grid representation
 function logMove(y) {
     y.innerHTML="<p>"+turn+"</p>";
     updateGrid(y);
@@ -134,60 +126,17 @@ function logMove(y) {
     y.removeEventListener('click', listener);
   }
 
-
-// var a1Box = document.getElementById('a1');
-// a1Box.addEventListener('click', listener);
-
-// var a2Box = document.getElementById('a2');
-// a2Box.addEventListener('click', listener);
-
-// var a3Box = document.getElementById('a3');
-// a3Box.addEventListener('click', listener);
-
-// var b1Box = document.getElementById('b1');
-// b1Box.addEventListener('click', listener);
-
-// var b2Box = document.getElementById('b2');
-// b2Box.addEventListener('click', listener);
-
-// var b3Box = document.getElementById('b3');
-// b3Box.addEventListener('click', listener);
-
-// var c1Box = document.getElementById('c1');
-// c1Box.addEventListener('click', listener);
-
-// var c2Box = document.getElementById('c2');
-// c2Box.addEventListener('click', listener);
-
-// var c3Box = document.getElementById('c3');
-// c3Box.addEventListener('click', listener);
-
-var idArray = ['a1','a2','a3','b1','b2','b3','c1','c2','c3'];
-idArray.forEach(addClickEvent);
-
-
 function listener() {
-  console.log('clicked');
-    logMove(this);
-    // checkWin();
-    console.log(gameWon);
-    if (checkWin()===true) {
-      winner=turn;
-      console.log(winner+' wins!');
-      idArray.forEach(freezeCell);
-      // a1Box.removeEventListener('click', listener);
-      // a2Box.removeEventListener('click', listener);
-      // a3Box.removeEventListener('click', listener);
-      // b1Box.removeEventListener('click', listener);
-      // b2Box.removeEventListener('click', listener);
-      // b3Box.removeEventListener('click', listener);
-      // c1Box.removeEventListener('click', listener);
-      // c2Box.removeEventListener('click', listener);
-      // c3Box.removeEventListener('click', listener);
-      var h1Grabbed = document.getElementsByTagName('h1');
-      h1Grabbed[0].innerHTML=turn + " wins!";
-    };
-    changeTurn(); 
+  logMove(this);
+  if (checkWin()===true) {
+    winner=turn;
+    console.log(winner+' wins!');
+    updateScore();
+    idArray.forEach(freezeCell);
+    var h1Grabbed = document.getElementsByTagName('h1');
+    h1Grabbed[0].innerHTML=turn + " wins!";
+  };
+  changeTurn(); 
   };
 
 function addClickEvent(a,b,c) {
@@ -197,6 +146,35 @@ function addClickEvent(a,b,c) {
 function freezeCell(a,b,c) {
   document.getElementById(a).removeEventListener('click', listener);
 };
+
+
+function resetGame() {
+  var cells = document.getElementsByClassName('cell')
+  ;
+  for (i=0; i<=8; i++) {
+  cells[i].innerHTML='';
+  };
+  var h1Grabbed = document.getElementsByTagName('h1');
+      h1Grabbed[0].innerHTML="Noughts and Crosses"
+  grid= [['','',''],['','',''],['','','']];
+  idArray.forEach(addClickEvent);
+
+};
+
+function turnPrompt() {
+  document.getElementById('message').innerHTML=turn+' to play.'
+} 
+
+//PROGRAM
+//clear moves from screen and reset grid arrayv
+resetGame();
+
+//put 0 on score box 
+document.getElementById('scoreX').innerHTML='<p>'+xScore+'</p>';
+document.getElementById('scoreO').innerHTML='<p>'+oScore+'</p>';
+
+//add  click event to 'clear'
+document.getElementById('newGameButton').addEventListener('click', resetGame);
 
 
 
