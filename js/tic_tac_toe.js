@@ -1,7 +1,7 @@
 console.log('JS file is linked');
 
 //declare variable turn that changes each turn from x to o and back again
-var turn = "x";
+var turn = "X";
 
 //gameWon = true if winning line is on board
 var gameWon;
@@ -9,7 +9,7 @@ var gameWon;
 var winner;
 
 function changeTurn() {
-  turn = turn === "x" ? "o" : "x";
+  turn = turn === "X" ? "O" : "X";
 }
 
 //array of arrays that represents grid at any particular time throughout the game. Each array in the array is a row, starting from top to bottom
@@ -19,14 +19,6 @@ var grid = [['','',''],['','',''],['','','']];
 
 
 //for element x, inserts x or o and calls updateGrid() to update the grid representation
-var col1 = [grid[0][0],grid[1][0],grid[2][0]];
-var col2 = [grid[0][1],grid[1][1],grid[2][1]];
-var col3 = [grid[0][2],grid[1][2],grid[2][2]];
-var row1 = grid[0];
-var row2 = grid[1];
-var row3 = grid[2];
-var diag1 = [grid[0][0],grid[1][1],grid[2][2]];
-var diag2 = [grid[0][2],grid[1][1],grid[2][0]];
 
 //TRIED TO SHORTEN CODE BUT DIDIN"T WORK
 // var winLines = [col1,col2,col3,row1,row2,row3,diag1,diag2];
@@ -40,9 +32,20 @@ var diag2 = [grid[0][2],grid[1][1],grid[2][0]];
 function checkWin() {
 //lines(rows,cols and two diags) to look at to find winner
 
+var col1 = [grid[0][0],grid[1][0],grid[2][0]];
+var col2 = [grid[0][1],grid[1][1],grid[2][1]];
+var col3 = [grid[0][2],grid[1][2],grid[2][2]];
+var row1 = grid[0];
+var row2 = grid[1];
+var row3 = grid[2];
+var diag1 = [grid[0][0],grid[1][1],grid[2][2]];
+var diag2 = [grid[0][2],grid[1][1],grid[2][0]];
+
+
 //true/false variable for whether game is won or not
 //NB- could use .every to check all these conditions if we had an array of the above variables.
 
+// NB - tried to replace the below with a nested .every method but it didn'work
   gameWon =
   (col1.every(function(n) {
     return(n===col1[0] && col1[0]!=='');
@@ -117,17 +120,18 @@ function updateGrid(cell) {
 };
 
 //grab all cells 
-var cells = document.getElementsByClassName('cell');
+// var cells = document.getElementsByClassName('cell');
 
 // for all cells add event listeners to insert 'x' or 'o' when clicked, call updateGrid() to record the move,  then call changeTurn() so that it alternates.
 //NB: tried to separate out a function that inserts 'x' or 'o' (eg. takeTurn(){..}) but 'this' needed to be called within here
 // [].forEach.call(cells, function(v,i,a) {
 //   v.addEventListener
 
-function logMove(x) {
+function logMove(y) {
+    y.innerHTML="<p>"+turn+"</p>";
+    updateGrid(y);
     console.log('move logged');
-    x.innerHTML="<p>"+turn+"</p>";
-    updateGrid(x);
+    y.removeEventListener('click', listener);
   }
 
 
@@ -159,18 +163,18 @@ function logMove(x) {
 // c3Box.addEventListener('click', listener);
 
 var idArray = ['a1','a2','a3','b1','b2','b3','c1','c2','c3'];
-idArray.forEach(addListener);
+idArray.forEach(addClickEvent);
 
 
 function listener() {
   console.log('clicked');
     logMove(this);
-    checkWin();
+    // checkWin();
     console.log(gameWon);
-    if (gameWon===true) {
+    if (checkWin()===true) {
       winner=turn;
       console.log(winner+' wins!');
-      idArray.forEach(removeListener);
+      idArray.forEach(freezeCell);
       // a1Box.removeEventListener('click', listener);
       // a2Box.removeEventListener('click', listener);
       // a3Box.removeEventListener('click', listener);
@@ -180,15 +184,17 @@ function listener() {
       // c1Box.removeEventListener('click', listener);
       // c2Box.removeEventListener('click', listener);
       // c3Box.removeEventListener('click', listener);
+      var h1Grabbed = document.getElementsByTagName('h1');
+      h1Grabbed[0].innerHTML=turn + " wins!";
     };
     changeTurn(); 
   };
 
-function addListener(a,b,c) {
+function addClickEvent(a,b,c) {
   document.getElementById(a).addEventListener('click', listener);
 };
 
-function removeListener(a,b,c) {
+function freezeCell(a,b,c) {
   document.getElementById(a).removeEventListener('click', listener);
 };
 
